@@ -23,6 +23,7 @@ describe('Menu model routes', () => {
     expect(rows[0]).toEqual(createdMenu);
   });
 
+
   it('finds a menu item by id', async() => {
     const tiramisu = await Menu.insert({
       item: 'Tiramisu',
@@ -39,5 +40,14 @@ describe('Menu model routes', () => {
       price: '$6.70'
     });
   });
+
+
+  it('returns null if it cant find a menu item by id', async() => {
+    const tiramisu = await Menu.findById(22);
+
+    expect(tiramisu).toEqual(null);
+  });
+
+  
 
 });

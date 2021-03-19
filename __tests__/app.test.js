@@ -48,6 +48,35 @@ describe('Menu model routes', () => {
     expect(tiramisu).toEqual(null);
   });
 
+
+  it('finds all the menu items', async() => {
+    await Promise.all([
+      Menu.insert({
+        item: 'Cheese Burger',
+        description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        price: '$12.95'
+      }),
+      Menu.insert({
+        item: 'Fried Pickles',
+        description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        price: '$4.95'
+      }),
+      Menu.insert({
+        item: 'Pretzel',
+        description: 'A classic Bavarian snack - made in house',
+        price: '$5.95'
+      })
+    ]);
+
+    const menus = await Menu.find();
+
+    expect(menus).toEqual(expect.arrayContaining([
+      { id: expect.any(String), item: 'Cheese Burger', description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses', price: '$12.95' },
+      { id: expect.any(String), item: 'Fried Pickles', description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce', price: '$4.95' },
+      { id: expect.any(String), item: 'Pretzel', description: 'A classic Bavarian snack - made in house', price: '$5.95' }
+    ]));
+
+  });
   
 
 });

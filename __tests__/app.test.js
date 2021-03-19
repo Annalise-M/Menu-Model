@@ -112,9 +112,24 @@ describe('Menu model routes', () => {
       description: 'An italian coffee and gelato dessert',
       price: '$3.95'
     });
-
   });
 
+  it('deletes a row by id', async() => {
+    const createdMenu = await Menu.insert({
+      item: 'Eggplant Parmesan',
+      description: 'Classic italian dish with eggplant and a tomato based sauce',
+      price: '$7.95'
+    });
 
+    const deletedMenu = await Menu.delete(createdMenu.id);
+
+    expect(deletedMenu).toEqual({
+      id: createdMenu.id,
+      item: 'Eggplant Parmesan',
+      description: 'Classic italian dish with eggplant and a tomato based sauce',
+      price: '$7.95'
+    });
+
+  });
 
 });

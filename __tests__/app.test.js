@@ -3,8 +3,7 @@ const pool = require('../lib/utils/pool');
 const Menu = require('../lib/models/menu');
 
 
-describe('Menu-Model routes', () => {
-
+describe('Menu model routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
@@ -23,4 +22,22 @@ describe('Menu-Model routes', () => {
 
     expect(rows[0]).toEqual(createdMenu);
   });
+
+  it('finds a menu item by id', async() => {
+    const tiramisu = await Menu.insert({
+      item: 'Tiramisu',
+      description: 'An italian coffee custard dessert',
+      price: '$6.70'
+    });
+
+    const foundTiramisu = await Menu.findById(tiramisu.id);
+
+    expect(foundTiramisu).toEqual({
+      id: tiramisu.id,
+      item: 'Tiramisu',
+      description: 'An italian coffee custard dessert',
+      price: '$6.70'
+    });
+  });
+
 });

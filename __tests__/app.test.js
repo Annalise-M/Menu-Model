@@ -8,11 +8,12 @@ describe('Menu model routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
+
   it('insert a new food item onto the menu database', async() => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
       description: 'An italian coffee custard dessert',
-      price: '$6.70',
+      price: '$5.95',
     });
 
     const { rows } = await pool.query(
@@ -28,7 +29,7 @@ describe('Menu model routes', () => {
     const tiramisu = await Menu.insert({
       item: 'Tiramisu',
       description: 'An italian coffee custard dessert',
-      price: '$6.70'
+      price: '$5.95'
     });
 
     const foundTiramisu = await Menu.findById(tiramisu.id);
@@ -37,7 +38,7 @@ describe('Menu model routes', () => {
       id: tiramisu.id,
       item: 'Tiramisu',
       description: 'An italian coffee custard dessert',
-      price: '$6.70'
+      price: '$5.95'
     });
   });
 
@@ -71,12 +72,49 @@ describe('Menu model routes', () => {
     const menus = await Menu.find();
 
     expect(menus).toEqual(expect.arrayContaining([
-      { id: expect.any(String), item: 'Cheese Burger', description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses', price: '$12.95' },
-      { id: expect.any(String), item: 'Fried Pickles', description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce', price: '$4.95' },
-      { id: expect.any(String), item: 'Pretzel', description: 'A classic Bavarian snack - made in house', price: '$5.95' }
+      { 
+        id: expect.any(String), 
+        item: 'Cheese Burger',
+        description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        price: '$12.95'
+      },
+      { 
+        id: expect.any(String), 
+        item: 'Fried Pickles',
+        description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        price: '$4.95'
+      },
+      { 
+        id: expect.any(String),
+        item: 'Pretzel',
+        description: 'A classic Bavarian snack - made in house',
+        price: '$5.95'
+      }
     ]));
-
   });
   
+  it('updates a row by id', async() => {
+    const createdMenu = await Menu.insert({
+      item: 'Tiramisu',
+      description: 'An italian coffee custard dessert',
+      price: '$5.95',
+    });
+
+    const updatedMenu = await Menu.update(createdMenu.id, {
+      item: 'Affagato',
+      description: 'An italian coffee and gelato dessert',
+      price: '$3.95'
+    });
+
+    expect(updatedMenu).toEqual({
+      id: createdMenu.id,
+      item: 'Affagato',
+      description: 'An italian coffee and gelato dessert',
+      price: '$3.95'
+    });
+
+  });
+
+
 
 });

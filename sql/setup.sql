@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS menus; 
+-- DROP TABLE IF EXISTS admins;
+
+CREATE TABLE menus (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  item TEXT NOT NULL,
+  description TEXT,
+  price TEXT NOT NULL
+);
+
+-- CREATE TABLE admins (
+--   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--   email TEXT NOT NULL,
+--   password_hash TEXT NOT NULL,
+--   phone_number TEXT
+-- );

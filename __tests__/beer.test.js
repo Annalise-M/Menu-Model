@@ -102,26 +102,29 @@ describe('Menu model routes', () => {
     ]));
   });
   
-  // it('updates a row by id', async() => {
-  //   const createdMenu = await Menu.insert({
-  //     item: 'Tiramisu',
-  //     detail: 'An italian coffee custard dessert',
-  //     price: '$5.95',
-  //   });
+  it('updates a row by id', async() => {
+    const createdBeer = await Beer.insert({
+      brewery: 'Breakside - Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
+      price: '$6'
+    });
 
-  //   const updatedMenu = await Menu.update(createdMenu.id, {
-  //     item: 'Affagato',
-  //     detail: 'An italian coffee and gelato dessert',
-  //     price: '$3.95'
-  //   });
+    const updatedBeer = await Beer.update(createdBeer.id, {
+      brewery: 'Breakside Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
+      price: '$8'
+    });
 
-  //   expect(updatedMenu).toEqual({
-  //     id: createdMenu.id,
-  //     item: 'Affagato',
-  //     detail: 'An italian coffee and gelato dessert',
-  //     price: '$3.95'
-  //   });
-  // });
+    expect(updatedBeer).toEqual({
+      id: createdBeer.id,
+      brewery: 'Breakside Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
+      price: '$8'
+    });
+  });
 
   // it('deletes a row by id', async() => {
   //   const createdMenu = await Menu.insert({

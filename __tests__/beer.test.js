@@ -143,8 +143,6 @@ describe('Menu model routes', () => {
       abv: '8 %',
       price: '$7'
     });
-
-
   });
 
 });

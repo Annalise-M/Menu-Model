@@ -13,7 +13,7 @@ describe('Menu model routes', () => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
-      price: '$5.95',
+      price: '$5.95'
     });
 
     const { rows } = await pool.query(
@@ -129,6 +129,7 @@ describe('Menu model routes', () => {
       detail: 'Classic italian dish with eggplant and a tomato based sauce',
       price: '$7.95'
     });
+
 
   });
 

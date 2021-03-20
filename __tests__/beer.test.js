@@ -126,23 +126,25 @@ describe('Menu model routes', () => {
     });
   });
 
-  // it('deletes a row by id', async() => {
-  //   const createdMenu = await Menu.insert({
-  //     item: 'Eggplant Parmesan',
-  //     detail: 'Classic italian dish with eggplant and a tomato based sauce',
-  //     price: '$7.95'
-  //   });
+  it('deletes a row by id', async() => {
+    const createdBeer = await Beer.insert({
+      brewery: '2 Towns Cosmic Crisp',
+      style: 'Cider',
+      abv: '8 %',
+      price: '$7'
+    });
 
-  //   const deletedMenu = await Menu.delete(createdMenu.id);
+    const deletedBeer = await Beer.delete(createdBeer.id);
 
-  //   expect(deletedMenu).toEqual({
-  //     id: createdMenu.id,
-  //     item: 'Eggplant Parmesan',
-  //     detail: 'Classic italian dish with eggplant and a tomato based sauce',
-  //     price: '$7.95'
-  //   });
+    expect(deletedBeer).toEqual({
+      id: createdBeer.id,
+      brewery: '2 Towns Cosmic Crisp',
+      style: 'Cider',
+      abv: '8 %',
+      price: '$7'
+    });
 
 
-  // });
+  });
 
 });

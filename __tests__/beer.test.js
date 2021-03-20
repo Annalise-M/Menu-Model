@@ -53,48 +53,54 @@ describe('Menu model routes', () => {
   });
 
 
-  // it('finds all the menu items', async() => {
-  //   await Promise.all([
-  //     Menu.insert({
-  //       item: 'Cheese Burger',
-  //       detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
-  //       price: '$12.95'
-  //     }),
-  //     Menu.insert({
-  //       item: 'Fried Pickles',
-  //       detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
-  //       price: '$4.95'
-  //     }),
-  //     Menu.insert({
-  //       item: 'Pretzel',
-  //       detail: 'A classic Bavarian snack - made in house',
-  //       price: '$5.95'
-  //     })
-  //   ]);
+  it('finds all the beer items', async() => {
+    await Promise.all([
+      Beer.insert({
+        brewery: '2 Towns Bright Cider',
+        style: 'Cider',
+        abv: '6 %',
+        price: '$6'
+      }),
+      Beer.insert({
+        brewery: '2 Towns Cosmic Crisp',
+        style: 'Cider',
+        abv: '8 %',
+        price: '$7'
+      }),
+      Beer.insert({
+        brewery: 'Breakside - Wanderlust IPA',
+        style: 'IPA',
+        abv: '6.6 %',
+        price: '$6'
+      })
+    ]);
 
-  //   const menus = await Menu.find();
+    const beers = await Beer.find();
 
-  //   expect(menus).toEqual(expect.arrayContaining([
-  //     { 
-  //       id: expect.any(String), 
-  //       item: 'Cheese Burger',
-  //       detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
-  //       price: '$12.95'
-  //     },
-  //     { 
-  //       id: expect.any(String), 
-  //       item: 'Fried Pickles',
-  //       detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
-  //       price: '$4.95'
-  //     },
-  //     { 
-  //       id: expect.any(String),
-  //       item: 'Pretzel',
-  //       detail: 'A classic Bavarian snack - made in house',
-  //       price: '$5.95'
-  //     }
-  //   ]));
-  // });
+    expect(beers).toEqual(expect.arrayContaining([
+      { 
+        id: expect.any(String), 
+        brewery: '2 Towns Bright Cider',
+        style: 'Cider',
+        abv: '6 %',
+        price: '$6'
+      },
+      { 
+        id: expect.any(String), 
+        brewery: '2 Towns Cosmic Crisp',
+        style: 'Cider',
+        abv: '8 %',
+        price: '$7'
+      },
+      { 
+        id: expect.any(String),
+        brewery: 'Breakside - Wanderlust IPA',
+        style: 'IPA',
+        abv: '6.6 %',
+        price: '$6'
+      }
+    ]));
+  });
   
   // it('updates a row by id', async() => {
   //   const createdMenu = await Menu.insert({

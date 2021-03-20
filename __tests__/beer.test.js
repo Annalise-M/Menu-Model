@@ -46,11 +46,11 @@ describe('Menu model routes', () => {
   });
 
 
-  // it('returns null if it cant find a menu item by id', async() => {
-  //   const tiramisu = await Menu.findById(22);
+  it('returns null if it cant find a menu item by id', async() => {
+    const TwoTowns = await Beer.findById(18);
 
-  //   expect(tiramisu).toEqual(null);
-  // });
+    expect(TwoTowns).toEqual(null);
+  });
 
 
   // it('finds all the menu items', async() => {

@@ -26,22 +26,24 @@ describe('Menu model routes', () => {
   });
 
 
-  // it('finds a menu item by id', async() => {
-  //   const tiramisu = await Menu.insert({
-  //     item: 'Tiramisu',
-  //     detail: 'An italian coffee custard dessert',
-  //     price: '$5.95'
-  //   });
+  it('finds a beer item by id', async() => {
+    const TwoTowns = await Beer.insert({
+      brewery: '2 Towns Bright Cider',
+      style: 'Cider',
+      abv: '6 %',
+      price: '$6'
+    });
 
-  //   const foundTiramisu = await Menu.findById(tiramisu.id);
+    const found2Towns = await Beer.findById(TwoTowns.id);
 
-  //   expect(foundTiramisu).toEqual({
-  //     id: tiramisu.id,
-  //     item: 'Tiramisu',
-  //     detail: 'An italian coffee custard dessert',
-  //     price: '$5.95'
-  //   });
-  // });
+    expect(found2Towns).toEqual({
+      id: TwoTowns.id,
+      brewery: '2 Towns Bright Cider',
+      style: 'Cider',
+      abv: '6 %',
+      price: '$6'
+    });
+  });
 
 
   // it('returns null if it cant find a menu item by id', async() => {

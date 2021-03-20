@@ -12,8 +12,8 @@ describe('Menu model routes', () => {
   it('insert a new food item onto the menu database', async() => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
-      description: 'An italian coffee custard dessert',
-      price: '$5.95',
+      detail: 'An italian coffee custard dessert',
+      price: '$5.95'
     });
 
     const { rows } = await pool.query(
@@ -28,7 +28,7 @@ describe('Menu model routes', () => {
   it('finds a menu item by id', async() => {
     const tiramisu = await Menu.insert({
       item: 'Tiramisu',
-      description: 'An italian coffee custard dessert',
+      detail: 'An italian coffee custard dessert',
       price: '$5.95'
     });
 
@@ -37,7 +37,7 @@ describe('Menu model routes', () => {
     expect(foundTiramisu).toEqual({
       id: tiramisu.id,
       item: 'Tiramisu',
-      description: 'An italian coffee custard dessert',
+      detail: 'An italian coffee custard dessert',
       price: '$5.95'
     });
   });
@@ -54,17 +54,17 @@ describe('Menu model routes', () => {
     await Promise.all([
       Menu.insert({
         item: 'Cheese Burger',
-        description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
         price: '$12.95'
       }),
       Menu.insert({
         item: 'Fried Pickles',
-        description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
         price: '$4.95'
       }),
       Menu.insert({
         item: 'Pretzel',
-        description: 'A classic Bavarian snack - made in house',
+        detail: 'A classic Bavarian snack - made in house',
         price: '$5.95'
       })
     ]);
@@ -75,19 +75,19 @@ describe('Menu model routes', () => {
       { 
         id: expect.any(String), 
         item: 'Cheese Burger',
-        description: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
         price: '$12.95'
       },
       { 
         id: expect.any(String), 
         item: 'Fried Pickles',
-        description: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
         price: '$4.95'
       },
       { 
         id: expect.any(String),
         item: 'Pretzel',
-        description: 'A classic Bavarian snack - made in house',
+        detail: 'A classic Bavarian snack - made in house',
         price: '$5.95'
       }
     ]));
@@ -96,20 +96,20 @@ describe('Menu model routes', () => {
   it('updates a row by id', async() => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
-      description: 'An italian coffee custard dessert',
+      detail: 'An italian coffee custard dessert',
       price: '$5.95',
     });
 
     const updatedMenu = await Menu.update(createdMenu.id, {
       item: 'Affagato',
-      description: 'An italian coffee and gelato dessert',
+      detail: 'An italian coffee and gelato dessert',
       price: '$3.95'
     });
 
     expect(updatedMenu).toEqual({
       id: createdMenu.id,
       item: 'Affagato',
-      description: 'An italian coffee and gelato dessert',
+      detail: 'An italian coffee and gelato dessert',
       price: '$3.95'
     });
   });
@@ -117,7 +117,7 @@ describe('Menu model routes', () => {
   it('deletes a row by id', async() => {
     const createdMenu = await Menu.insert({
       item: 'Eggplant Parmesan',
-      description: 'Classic italian dish with eggplant and a tomato based sauce',
+      detail: 'Classic italian dish with eggplant and a tomato based sauce',
       price: '$7.95'
     });
 
@@ -126,9 +126,10 @@ describe('Menu model routes', () => {
     expect(deletedMenu).toEqual({
       id: createdMenu.id,
       item: 'Eggplant Parmesan',
-      description: 'Classic italian dish with eggplant and a tomato based sauce',
+      detail: 'Classic italian dish with eggplant and a tomato based sauce',
       price: '$7.95'
     });
+
 
   });
 

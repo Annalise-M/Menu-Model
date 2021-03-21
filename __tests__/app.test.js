@@ -2,7 +2,7 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool');
 const Menu = require('../lib/models/menu');
 
-
+// Menu Model previous passing w/ out admin pathing //
 describe.skip('Menu model routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));

@@ -8,7 +8,7 @@ describe.skip('Menu model routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-
+  
   it('insert a new beer item onto the beer database', async() => {
     const createdBeer = await Beer.insert({
       admin_id: expect.any(String),

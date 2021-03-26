@@ -2,7 +2,7 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool');
 const Menu = require('../lib/models/menu');
 
-// Menu Model previous passing w/ out admin pathing //
+
 describe.skip('Menu model routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
@@ -11,7 +11,6 @@ describe.skip('Menu model routes', () => {
 
   it('insert a new food item onto the menu database', async() => {
     const createdMenu = await Menu.insert({
-      admin_id: expect.any(Number),
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
       price: '$5.95'
@@ -94,6 +93,7 @@ describe.skip('Menu model routes', () => {
     ]));
   });
   
+  
   it('updates a row by id', async() => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
@@ -114,6 +114,7 @@ describe.skip('Menu model routes', () => {
       price: '$3.95'
     });
   });
+
 
   it('deletes a row by id', async() => {
     const createdMenu = await Menu.insert({

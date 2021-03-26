@@ -1,8 +1,8 @@
 // const { getAgent } = require('../data/data-helpers');
 const fs = require('fs');
+const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
-const pool = require('../lib/utils/pool');
 // const admin = require('../lib/models/admin');
 
 describe('admin routes', () => {
@@ -12,12 +12,11 @@ describe('admin routes', () => {
 
   it('signup an admin via POST', async() => {
     const response = await request(app)
-      .post('/api/v1/auth/signup')
+      .post('/api/v1/admin/signup')
       .send({
         email: 'test@test.com',
         password: 'password'
       });
-      // .then(console.log());
   
     expect(response.body).toEqual({
       id: expect.any(String),

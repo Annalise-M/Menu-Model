@@ -1,9 +1,9 @@
-// const { getAgent } = require('../data/data-helpers');
 const fs = require('fs');
 const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
 const AdminService = require('../lib/services/admin-service');
+
 
 describe('admin routes', () => {
   beforeEach(() => {
@@ -44,5 +44,31 @@ describe('admin routes', () => {
     });
   });
 
+
+  it('verifies an admin via GET', async() => {
+    const agent = request.agent(app);
+    await agent
+      .post('/api/v1/admin/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'password'
+      });
+
+    const response = await agent
+      .get('/api/v1/admin/verify');
+
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      email: 'test@test.com',
+    });
+
+    const responseWithoutAuth = await request(app)
+      .get('/api/v1/admin/verify');
+
+    expect(responseWithoutAuth.body).toEqual({
+      status: 401,
+      message: 'jwt must be provided'
+    });
+  });
 
 });

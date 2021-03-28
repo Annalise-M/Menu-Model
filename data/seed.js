@@ -3,6 +3,8 @@ const AdminService = require('../lib/services/admin-service');
 const Menu = require('../lib/models/menu');
 const Beer = require('../lib/models/beer');
 
+
+// think about inputting exact emails into the seed source...
 module.exports = async({ adminCount = 2, menuCount = 50, beerCount = 100 } = {}) => {
   const admins = await Promise.all([...Array(adminCount)].map((_, i) => {
     return AdminService.create({
@@ -13,10 +15,10 @@ module.exports = async({ adminCount = 2, menuCount = 50, beerCount = 100 } = {})
   
   await Promise.all([...Array(menuCount)].map(() => {
     return Menu.insert({
-      admin_Id: chance.pickone(admins).id,
-      item: chance.sentence(),
-      detail: chance.sentence(),
-      price: chance.sentence()
+      admin_Id: expect.any(String),
+      item: 'food',
+      detail: 'delicious',
+      price: '8.50'
     });
     
   }));

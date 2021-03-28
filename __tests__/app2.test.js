@@ -1,4 +1,6 @@
 const { getAgent } = require('../data/data-helpers');
+
+const Menu = require('../lib/models/menu');
 // const request = require('supertest');
 // const app = require('../lib/app');
 // const Admin = require('../lib/models/admin');
@@ -21,6 +23,16 @@ describe('Menu routes', () => {
       item: 'food',
       detail: 'delicious',
       price: '$8.50'
+    });
+  });
+
+  it('finds a menu by id', async() => {
+    const menu = await Menu.findById(1);
+    const response = await getAgent()
+      .get('/api/v1/menus/1');
+
+    expect(response.body).toEqual({
+      ...menu
     });
   });
 

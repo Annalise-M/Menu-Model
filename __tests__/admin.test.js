@@ -47,14 +47,6 @@ describe('admin routes', () => {
 
 
   it('verifies an admin via GET', async() => {
-    // const agent = request.agent(app);
-    // await agent
-    //   .post('/api/v1/admin/signup')
-    //   .send({
-    //     email: 'test@test.com',
-    //     password: 'password'
-    //   });
-
     const response = await getAgent()
       .get('/api/v1/admin/verify');
 

@@ -1,10 +1,15 @@
 const fs = require('fs');
 const pool = require('../lib/utils/pool');
-const request = require('../lib/app');
+const seed = require('./seed');
+const request = require('supertest');
 const app = require('../lib/app');
 
 beforeEach(() => {
   return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+});
+
+beforeEach(() => {
+  return seed();
 });
 
 const agent = request.agent(app);
@@ -12,8 +17,8 @@ beforeEach(() => {
   return agent
     .post('/api/v1/admin/login')
     .send({
-      email: 'test@test.com',
-      password: 'password'
+      email: 'test0@test.com',
+      password: 'password0'
     });
 });
 

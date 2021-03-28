@@ -3,6 +3,7 @@ const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
 const AdminService = require('../lib/services/admin-service');
+const { getAgent } = require('../data/data-helpers');
 
 
 describe('admin routes', () => {
@@ -46,20 +47,20 @@ describe('admin routes', () => {
 
 
   it('verifies an admin via GET', async() => {
-    const agent = request.agent(app);
-    await agent
-      .post('/api/v1/admin/signup')
-      .send({
-        email: 'test@test.com',
-        password: 'password'
-      });
+    // const agent = request.agent(app);
+    // await agent
+    //   .post('/api/v1/admin/signup')
+    //   .send({
+    //     email: 'test@test.com',
+    //     password: 'password'
+    //   });
 
-    const response = await agent
+    const response = await getAgent()
       .get('/api/v1/admin/verify');
 
     expect(response.body).toEqual({
       id: expect.any(String),
-      email: 'test@test.com',
+      email: 'test0@test.com',
     });
 
     const responseWithoutAuth = await request(app)

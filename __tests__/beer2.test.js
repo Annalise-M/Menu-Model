@@ -1,5 +1,5 @@
 const { getAgent } = require('../data/data-helpers');
-
+const Beer = require('../lib/models/beer');
 
 
 describe('Beer routes', () => {
@@ -22,4 +22,15 @@ describe('Beer routes', () => {
       price: '$6'
     });
   });
+
+  it('finds a beer by id', async() => {
+    const beer = await Beer.findById(1);
+    const response = await getAgent()
+      .get('/api/v1/beers/1');
+
+    expect(response.body).toEqual({
+      ...beer
+    });
+  });
+
 });

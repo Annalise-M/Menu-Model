@@ -1,22 +1,31 @@
 const fs = require('fs');
 const pool = require('../lib/utils/pool');
-const seed = require('../data/seed');
+// const seed = require('../data/seed');
 const Menu = require('../lib/models/menu');
+const AdminService = require('../lib/services/admin-service');
+// const Admin = require('../lib/models/admin');
 
-
-describe.skip('Menu model routes', () => {
+describe('Menu model routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  afterAll(() => pool.end());
-  beforeEach(() => {
-    return seed();
-  });
+  // afterAll(() => pool.end());
+  // beforeEach(() => {
+  //   return seed();
+  // });
 
   it('insert a new food item onto the menu database', async() => {
+ 
+    
+    const testAdmin = await AdminService.create({
+      email: 'test@test.com',
+      passwordHash: 'password1'
+    }); 
     
     const createdMenu = await Menu.insert({
+    
+      testAdmin: testAdmin.id,
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
       price: '$5.95'

@@ -11,7 +11,7 @@ describe('admin routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  it('signup an admin via POST', async() => {
+  it.only('signup an admin via POST', async() => {
     const response = await request(app)
       .post('/api/v1/admin/signup')
       .send({

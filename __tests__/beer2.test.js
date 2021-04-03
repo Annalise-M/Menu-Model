@@ -14,8 +14,8 @@ describe('Beer routes', () => {
       });
 
     expect(response.body).toEqual({
-      adminId: expect.any(String),
       id: expect.any(String),
+      adminId: expect.any(String),
       brewery: '2 Towns Bright Cider',
       style: 'Cider',
       abv: '6 %',

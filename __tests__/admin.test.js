@@ -46,7 +46,7 @@ describe('admin routes', () => {
   });
 
 
-  it.skip('verifies an admin via GET', async() => {
+  it('verifies an admin via GET', async() => {
     const response = await getAgent()
       .get('/api/v1/admin/verify');
 

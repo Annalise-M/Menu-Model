@@ -11,7 +11,7 @@ describe('admin routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  it.only('signup an admin via POST', async() => {
+  it('signup an admin via POST', async() => {
     const response = await request(app)
       .post('/api/v1/admin/signup')
       .send({
@@ -29,14 +29,14 @@ describe('admin routes', () => {
   it('logs in admin via POST', async() => {
     const admin = await AdminService.create({
       email: 'test@test.com',
-      password: 'password1'
-    }); 
+      password: 'password'
+    });
 
     const response = await request(app)
       .post('/api/v1/admin/login')
       .send({
         email: 'test@test.com',
-        password: 'password1'
+        password: 'password'
       });
 
     expect(response.body).toEqual({
@@ -46,7 +46,7 @@ describe('admin routes', () => {
   });
 
 
-  it('verifies an admin via GET', async() => {
+  it.skip('verifies an admin via GET', async() => {
     const response = await getAgent()
       .get('/api/v1/admin/verify');
 

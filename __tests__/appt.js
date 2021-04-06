@@ -15,7 +15,7 @@ describe('Menu model routes', () => {
   //   return seed();
   // });
 
-  it('insert a new food item onto the menu database', async() => {
+  it.skip('insert a new food item onto the menu database', async() => {
  
     
     const testAdmin = await AdminService.create({

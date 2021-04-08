@@ -2,7 +2,7 @@ const { getAgent } = require('../data/data-helpers');
 const Beer = require('../lib/models/beer');
 
 
-describe('Beer routes', () => {
+describe.skip('Beer routes', () => {
   it('CREATES a beer via POST', async() => {
     const response = await getAgent()
       .post('/api/v1/beers')
@@ -23,7 +23,7 @@ describe('Beer routes', () => {
     });
   });
 
-  it('finds a beer by id', async() => {
+  it('FINDS a beer by id', async() => {
     const beer = await Beer.findById(1);
     const response = await getAgent()
       .get('/api/v1/beers/1');
@@ -33,4 +33,28 @@ describe('Beer routes', () => {
     });
   });
 
+
+  // UPDATES a beer by id w/ auth
+  it.skip('UPDATES a beer', async() => {
+    const response = await getAgent()
+      .insert('/api/v1/beers/1')
+      .send({
+        brewery: '2 Towns Bright IPA',
+        style: 'IPA',
+        abv: '6.2 %',
+        price: '$8'
+      });
+
+    expect(response.body).toEqual({
+      adminId: expect.any(String),
+      id: expect.any(String),
+      brewery: '2 Towns Bright IPA',
+      style: 'IPA',
+      abv: '6.2 %',
+      price: '$8'
+    });
+  });
+
+
+  // DELETES a beer by id w/ auth
 });

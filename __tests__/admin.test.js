@@ -3,7 +3,7 @@ const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
 const AdminService = require('../lib/services/admin-service');
-const { getAgent } = require('../data/data-helpers');
+const { agent } = require('../data/data-helpers');
 
 
 describe('admin routes', () => {
@@ -11,9 +11,9 @@ describe('admin routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  it('signup an admin via POST', async() => {
+  it('SIGNUP an admin via POST', async() => {
     const response = await request(app)
-      .post('/api/v1/admin/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: 'test@test.com',
         password: 'password'
@@ -26,14 +26,14 @@ describe('admin routes', () => {
   });
 
 
-  it('logs in admin via POST', async() => {
+  it('LOGIN admin via POST', async() => {
     const admin = await AdminService.create({
       email: 'test@test.com',
       password: 'password'
     });
 
     const response = await request(app)
-      .post('/api/v1/admin/login')
+      .post('/api/v1/auth/login')
       .send({
         email: 'test@test.com',
         password: 'password'
@@ -46,20 +46,32 @@ describe('admin routes', () => {
   });
 
 
-  it('verifies an admin via GET', async() => {
-    const response = await getAgent()
-      .get('/api/v1/admin/verify');
+  it('VERIFIES an admin via GET', async() => {
+    const agent = request.agent(app);
+    await agent
+      .post('/api/v1/auth/signup')
+      .send({
+        email: 'test@test.com',
+        password: 'password'
+      });
+
+    const response = await agent  
+      .get('/api/v1/auth/verify')
+      .send({
+        email: 'test@test.com',
+        password: 'password'
+      });
 
     expect(response.body).toEqual({
       id: expect.any(String),
-      email: 'test0@test.com',
+      email: 'test@test.com'
     });
-
+   
     const responseWithoutAuth = await request(app)
-      .get('/api/v1/admin/verify');
+      .get('/api/v1/auth/verify');
 
     expect(responseWithoutAuth.body).toEqual({
-      status: 401,
+      status: 500,
       message: 'jwt must be provided'
     });
   });

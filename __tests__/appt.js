@@ -20,7 +20,7 @@ describe('Menu model routes', () => {
     
     const testAdmin = await AdminService.create({
       email: 'test@test.com',
-      passwordHash: 'password1'
+      password: 'password1'
     }); 
     
     const createdMenu = await Menu.insert({

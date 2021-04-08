@@ -25,7 +25,7 @@ module.exports = async({ adminCount = 2, menuCount = 50, beerCount = 100 } = {})
 
   await Promise.all([...Array(beerCount)].map(() => {
     return Beer.insert({
-      admin_Id: chance.pickone(admins).id,
+      admin_Id: (admins).id,
       brewery: chance.sentence(),
       style: chance.sentence(),
       abv: chance.sentence(),

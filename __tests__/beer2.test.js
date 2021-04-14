@@ -1,8 +1,10 @@
+require('../data/data-helpers');
 const { getAgent } = require('../data/data-helpers');
 const Beer = require('../lib/models/beer');
+// const Admin = require('../lib/models/admin');
 
 
-describe.skip('Beer routes', () => {
+describe('Beer routes', () => {
   it('CREATES a beer via POST', async() => {
     const response = await getAgent()
       .post('/api/v1/beers')
@@ -35,10 +37,46 @@ describe.skip('Beer routes', () => {
 
 
   // UPDATES a beer by id w/ auth
-  it.skip('UPDATES a beer', async() => {
+  // it('UPDATES a beer by id via PUT', async() => {
+  //   await Admin.insert({
+  //     email: 'email@email.com',
+  //     passwordHash: 'password'
+  //   });
+
+  //   const beer = await Beer.insert({
+  //     adminId: 1,
+  //     brewery: '2 Towns Bright IPA',
+  //     style: 'IPA',
+  //     abv: '6.2 %',
+  //     price: '$8'
+  //   });
+
+  //   return getAgent()
+  //     .put(`/api/v1/auth/beers/${beer.id}`)
+  //     .send({
+  //       adminId: 1,
+  //       brewery: '2 Towns Bright IPA',
+  //       style: 'IPA',
+  //       abv: '6.2 %',
+  //       price: '$8'
+  //     })
+  //     .then(res => {
+  //       expect(res.body).toEqual({
+  //         id: expect.any(String),
+  //         adminId: expect.any(String),
+  //         brewery: '2 Towns Bright IPA',
+  //         style: 'IPA',
+  //         abv: '6.2 %',
+  //         price: '$8'
+  //       });
+  //     });
+  // });
+
+  it('UPDATES a beer', async() => {
     const response = await getAgent()
-      .insert('/api/v1/beers/1')
+      .put('/api/v1/beers/1')
       .send({
+        adminId: 1,
         brewery: '2 Towns Bright IPA',
         style: 'IPA',
         abv: '6.2 %',
@@ -46,12 +84,16 @@ describe.skip('Beer routes', () => {
       });
 
     expect(response.body).toEqual({
-      adminId: expect.any(String),
       id: expect.any(String),
+      adminId: expect.any(String),
       brewery: '2 Towns Bright IPA',
       style: 'IPA',
       abv: '6.2 %',
       price: '$8'
+      // brewery: 'Breakside Wanderlust IPA',
+      // style: 'IPA',
+      // abv: '6.6 %',
+      // price: '$8'
     });
   });
 

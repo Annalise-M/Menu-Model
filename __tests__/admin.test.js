@@ -3,7 +3,6 @@ const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
 const AdminService = require('../lib/services/admin-service');
-const { agent } = require('../data/data-helpers');
 
 
 describe('admin routes', () => {

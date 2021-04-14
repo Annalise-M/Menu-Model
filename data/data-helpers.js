@@ -15,7 +15,7 @@ beforeEach(() => {
 const agent = request.agent(app);
 beforeEach(() => {
   return agent
-    .post('/api/v1/admin/login')
+    .post('/api/v1/auth/login')
     .send({
       email: 'test0@test.com',
       password: 'password0'

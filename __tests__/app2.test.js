@@ -86,7 +86,41 @@ describe('Menu routes', () => {
   
 
   // UPDATES A ROW BY ID
+
+  it('UPDATES a menu', async() => {
+    const response = await getAgent()
+      .put('/api/v1/menus/1')
+      .send({
+        adminId: 1,
+        item: 'Papas Bravas',
+        detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat',
+        price: '$13'
+      });
+
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      adminId: '1',
+      item: 'Papas Bravas',
+      detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat',
+      price: '$13'
+    });
+  });
+
   // DELETES
+  // DELETES a beer by id w/ auth
+  it('DELETES a menu by id', async() => {
+    const response = await getAgent()
+      .delete('/api/v1/menus/1');
+    
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      adminId: expect.any(String),
+      item: 'food',
+      detail: 'delicious',
+      price: '8.50'
+    });
+  });
+
   // NULL if it can/'t find an id
     
 });

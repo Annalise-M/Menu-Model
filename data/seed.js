@@ -4,7 +4,7 @@ const Menu = require('../lib/models/menu');
 const Beer = require('../lib/models/beer');
 
 
-module.exports = async({ adminCount = 1, menuCount = 30, beerCount = 70 } = {}) => {
+module.exports = async({ adminCount = 2, menuCount = 30, beerCount = 70 } = {}) => {
   const admin = await Promise.all([...Array(adminCount)].map((_, i) => {
     return AdminService.create({
       email: `test${i}@test.com`,
@@ -14,7 +14,7 @@ module.exports = async({ adminCount = 1, menuCount = 30, beerCount = 70 } = {}) 
   
   await Promise.all([...Array(menuCount)].map(() => {
     return Menu.insert({
-      adminId: admin.id,
+      adminId: 1,
       item: 'food',
       detail: 'delicious',
       price: '8.50'
@@ -32,5 +32,6 @@ module.exports = async({ adminCount = 1, menuCount = 30, beerCount = 70 } = {}) 
     });
   }));
   
+  console.log(admin.id);
 };
 

@@ -10,14 +10,7 @@ describe('Menu model routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  // afterAll(() => pool.end());
-  // beforeEach(() => {
-  //   return seed();
-  // });
-
   it.skip('insert a new food item onto the menu database', async() => {
- 
-    
     const testAdmin = await AdminService.create({
       email: 'test@test.com',
       password: 'password1'

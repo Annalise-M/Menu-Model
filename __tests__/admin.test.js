@@ -10,6 +10,7 @@ describe('admin routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
+  // SIGN UP
   it('SIGNUP an admin via POST', async() => {
     const response = await request(app)
       .post('/api/v1/auth/signup')
@@ -24,7 +25,7 @@ describe('admin routes', () => {
     });
   });
 
-
+  // LOGIN
   it('LOGIN admin via POST', async() => {
     const admin = await AdminService.create({
       email: 'test@test.com',
@@ -44,7 +45,7 @@ describe('admin routes', () => {
     });
   });
 
-
+  // VERIFY
   it('VERIFIES an admin via GET', async() => {
     const agent = request.agent(app);
     await agent
@@ -74,5 +75,5 @@ describe('admin routes', () => {
       message: 'jwt must be provided'
     });
   });
-
+  
 });

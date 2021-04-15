@@ -2,12 +2,9 @@ const request = require('supertest');
 const { getAgent } = require('../data/data-helpers');
 const Menu = require('../lib/models/menu');
 const app = require('../lib/app');
-// const Admin = require('../lib/models/admin');
-// const { agent } = require('supertest');
 
 describe('Menu routes', () => {
-
-  // {INSERT} NEW MENU 
+  // CREATES
   it('CREATES a menu via POST', async() => {
     const response = await getAgent()
       .post('/api/v1/menus')
@@ -26,8 +23,8 @@ describe('Menu routes', () => {
     });
   });
 
-  // FINDS NEW MENU ITEM BY ID {GET}
-  it('finds a menu by id', async() => {
+  // FINDS by id
+  it('FINDS a menu by id', async() => {
     const menu = await Menu.findById(1);
     const response = await getAgent()
       .get('/api/v1/menus/1');
@@ -37,10 +34,15 @@ describe('Menu routes', () => {
     });
   });
 
+  // NULL if it can't find an id
+  it('Returns NULL if it can\'t find a menu item by id', async() => {
+    const Burgers = await Menu.findById(60);
 
+    expect(Burgers).toEqual(null);
+  });
 
-  // FINDS / DISPLAYS ALL MENU ITEMS VIA ADMIN ID
-  it('FINDS ALL MENU ITEMS by admin id via GET', async() => {
+  // FINDS ALL items
+  it('FINDS ALL menu items by admin id via GET', async() => {
     const menus = await Promise.all([
       Menu.insert({ item: 'Street tacos', detail: 'Pollo, Chorizo, Mushroom', price: '$3.50' }),
       Menu.insert({ item: 'Papas Bravas', detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat', price: '$13' }),
@@ -52,24 +54,9 @@ describe('Menu routes', () => {
       .then(response => {
         expect(response.body).toEqual(expect.arrayContaining(menus));
       });
-    // adminId: expect.any(String),
-    // id: expect.any(String),
-    // item: 'food',
-    // detail: 'delicious',
-    // price: '$8.50'
   });
   
-  
-
-  // return request(app)
-  //   .get('/api/v1/menus')
-  //   .then(res => {
-  //     expect(res.body).toEqual(expect.arrayContaining(menus));
-  //   });
-  
-
-  // UPDATES A ROW BY ID
-
+  // UPDATES A MENU item by id
   it('UPDATES a menu', async() => {
     const response = await getAgent()
       .put('/api/v1/menus/1')
@@ -89,8 +76,7 @@ describe('Menu routes', () => {
     });
   });
 
-  // DELETES
-  // DELETES a beer by id w/ auth
+  // DELETES a beer by id
   it('DELETES a menu by id', async() => {
     const response = await getAgent()
       .delete('/api/v1/menus/1');
@@ -104,7 +90,5 @@ describe('Menu routes', () => {
     });
   });
 
-  // NULL if it can/'t find an id
-    
 });
 

@@ -1,6 +1,8 @@
 require('../data/data-helpers');
+// const request = require('supertest');
 const { getAgent } = require('../data/data-helpers');
 const Beer = require('../lib/models/beer');
+// const app = require('../lib/app');
 // const Admin = require('../lib/models/admin');
 
 
@@ -35,54 +37,33 @@ describe('Beer routes', () => {
     });
   });
 
-
-  // UPDATES a beer by id w/ auth
-  // it('UPDATES a beer by id via PUT', async() => {
-  //   await Admin.insert({
-  //     email: 'email@email.com',
-  //     passwordHash: 'password'
-  //   });
-
-  //   const beer = await Beer.insert({
-  //     adminId: 1,
-  //     brewery: '2 Towns Bright IPA',
-  //     style: 'IPA',
-  //     abv: '6.2 %',
-  //     price: '$8'
-  //   });
-
-  //   return getAgent()
-  //     .put(`/api/v1/auth/beers/${beer.id}`)
-  //     .send({
-  //       adminId: 1,
-  //       brewery: '2 Towns Bright IPA',
-  //       style: 'IPA',
-  //       abv: '6.2 %',
-  //       price: '$8'
-  //     })
-  //     .then(res => {
-  //       expect(res.body).toEqual({
-  //         id: expect.any(String),
-  //         adminId: expect.any(String),
-  //         brewery: '2 Towns Bright IPA',
-  //         style: 'IPA',
-  //         abv: '6.2 %',
-  //         price: '$8'
-  //       });
-  //     });
-  // });
-
   it('UPDATES a beer', async() => {
     const response = await getAgent()
       .put('/api/v1/beers/1')
       .send({
         adminId: 1,
-        brewery: '2 Towns Bright IPA',
-        style: 'IPA',
+        brewery: '2 Towns Bright Cider',
+        style: 'Cider',
         abv: '6.2 %',
         price: '$8'
       });
 
+    expect(response.body).toEqual({
+      id: '1',
+      adminId: expect.any(String),
+      brewery: '2 Towns Bright Cider',
+      style: 'Cider',
+      abv: '6.2 %',
+      price: '$8'
+    });
+  });
+
+
+  // DELETES a beer by id w/ auth
+  it('DELETES a beer by id', async() => {
+    const response = await getAgent()
+      .delete('/api/v1/beers/1');
+    
     expect(response.body).toEqual({
       id: expect.any(String),
       adminId: expect.any(String),
@@ -90,13 +71,21 @@ describe('Beer routes', () => {
       style: 'IPA',
       abv: '6.2 %',
       price: '$8'
-      // brewery: 'Breakside Wanderlust IPA',
-      // style: 'IPA',
-      // abv: '6.6 %',
-      // price: '$8'
     });
+
+    // const deletedBeer = await Beer.insert({
+    //   brewery: '2 Towns Bright IPA',
+    //   style: 'IPA',
+    //   abv: '6.2 %',
+    //   price: '$8'
+    // });
+    
+    // return request(app)
+    //   .deleteBeerById(`/api/v1/beers/${deletedBeer.id}`)
+    //   .then(res => {
+    //     expect(res.body).toEqual(deletedBeer);
+    //   });
+    
   });
 
-
-  // DELETES a beer by id w/ auth
 });

@@ -40,30 +40,17 @@ describe('Menu routes', () => {
 
 
   // FINDS / DISPLAYS ALL MENU ITEMS VIA ADMIN ID
-  it.skip('finds all Menu items by admin id via GET', async() => {
+  it('FINDS ALL MENU ITEMS by admin id via GET', async() => {
     const menus = await Promise.all([
-      Menu
-        .post('/api/v1/menus')
-        .send({
-          item: 'food1',
-          detail: 'delicious1',
-          price: '$8.50'
-        }, {
-          item: 'food2',
-          detail: 'delicious2',
-          price: '$7.50'
-        }, {
-          item: 'food3',
-          detail: 'delicious3',
-          price: '$9.50'
-        })
-
+      Menu.insert({ item: 'Street tacos', detail: 'Pollo, Chorizo, Mushroom', price: '$3.50' }),
+      Menu.insert({ item: 'Papas Bravas', detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat', price: '$13' }),
+      Menu.insert({ item: 'Green Salad', detail: 'Farm Greens, creamy jalapeno cilantro dressing', price: '$8' })
     ]);
 
     return request(app)
       .get('/api/v1/menus')
       .then(response => {
-        expect(response.body).toEqual((menus));
+        expect(response.body).toEqual(expect.arrayContaining(menus));
       });
     // adminId: expect.any(String),
     // id: expect.any(String),
@@ -72,11 +59,7 @@ describe('Menu routes', () => {
     // price: '$8.50'
   });
   
-  // const menus = await Promise.all([
-  //   Menu.insert({ item: 'Street tacos', detail: 'Pollo, Chorizo, Mushroom', price: '$3.50' }),
-  //   Menu.insert({ item: 'Papas Bravas', detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat', price: '$13' }),
-  //   Menu.insert({ item: 'Green Salad', detail: 'Farm Greens, creamy jalapeno cilantro dressing', price: '$8' })
-  // ]);
+  
 
   // return request(app)
   //   .get('/api/v1/menus')

@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
-const hash = bcrypt.hashSync('password', 14);
-console.log(hash, 'heloooosoooooooooooooo');
+// const hash = bcrypt.hashSync('password', 14);
+// console.log(hash, 'heloooosoooooooooooooo');
 
 // APPARENTLY OUTDATED METHOD WITH THE LATEST VERSION of the bcrypt/hashing method(s)- chaining method doesnt appear to register with bcrypt docs \\
 

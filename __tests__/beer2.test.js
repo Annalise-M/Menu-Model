@@ -27,6 +27,7 @@ describe('Beer routes', () => {
     });
   });
 
+  
   it('FINDS a beer by id', async() => {
     const beer = await Beer.findById(1);
     const response = await getAgent()
@@ -36,6 +37,7 @@ describe('Beer routes', () => {
       ...beer
     });
   });
+
 
   it('UPDATES a beer', async() => {
     const response = await getAgent()
@@ -72,20 +74,6 @@ describe('Beer routes', () => {
       abv: '6.2 %',
       price: '$8'
     });
-
-    // const deletedBeer = await Beer.insert({
-    //   brewery: '2 Towns Bright IPA',
-    //   style: 'IPA',
-    //   abv: '6.2 %',
-    //   price: '$8'
-    // });
-    
-    // return request(app)
-    //   .deleteBeerById(`/api/v1/beers/${deletedBeer.id}`)
-    //   .then(res => {
-    //     expect(res.body).toEqual(deletedBeer);
-    //   });
-    
   });
 
 });

@@ -34,4 +34,3 @@ module.exports = async({ adminCount = 2, menuCount = 30, beerCount = 70 } = {}) 
   
   console.log(admin.id);
 };
-

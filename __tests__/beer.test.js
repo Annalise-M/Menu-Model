@@ -1,23 +1,44 @@
-const request = require('supertest');
-const { getAgent } = require('../data/data-helpers');
+const fs = require('fs');
+const pool = require('../lib/utils/pool');
 const Beer = require('../lib/models/beer');
-const app = require('../lib/app');
 
-describe('Beer routes', () => {
-  // CREATES
-  it('CREATES a beer via POST', async() => {
-    const response = await getAgent()
-      .post('/api/v1/beers')
-      .send({
-        brewery: '2 Towns Bright Cider',
-        style: 'Cider',
-        abv: '6 %',
-        price: '$6'
-      });
 
-    expect(response.body).toEqual({
-      id: expect.any(String),
-      adminId: expect.any(String),
+describe('Menu model routes', () => {
+  beforeEach(() => {
+    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  });
+
+
+  it('insert a new beer item onto the beer database', async() => {
+    const createdBeer = await Beer.insert({
+      admin_id: expect.any(String),
+      brewery: '2 Towns Bright Cider',
+      style: 'Cider',
+      abv: '6 %',
+      price: '$6'
+    });
+
+    const { rows } = await pool.query(
+      'SELECT * FROM beers WHERE id = $1',
+      [createdBeer.id]
+    );
+
+    expect(rows[0]).toEqual(createdBeer);
+  });
+
+
+  it('finds a beer item by id', async() => {
+    const TwoTowns = await Beer.insert({
+      brewery: '2 Towns Bright Cider',
+      style: 'Cider',
+      abv: '6 %',
+      price: '$6'
+    });
+
+    const found2Towns = await Beer.findById(TwoTowns.id);
+
+    expect(found2Towns).toEqual({
+      id: TwoTowns.id,
       brewery: '2 Towns Bright Cider',
       style: 'Cider',
       abv: '6 %',
@@ -25,86 +46,103 @@ describe('Beer routes', () => {
     });
   });
 
-  // FINDS by id
-  it('FINDS a beer by id', async() => {
-    const beer = await Beer.findById(1);
-    const response = await getAgent()
-      .get('/api/v1/beers/1');
 
-    expect(response.body).toEqual({
-      ...beer
-    });
-  });
-
-  // NULL without id
-  it('Returns NULL if it can\'t find a beer item by id', async() => {
-    const TwoTowns = await Beer.findById(80);
+  it('returns null if it cant find a menu item by id', async() => {
+    const TwoTowns = await Beer.findById(18);
 
     expect(TwoTowns).toEqual(null);
   });
 
-  // FINDS ALL items
-  it('FINDS ALL MENU ITEMS by admin id via GET', async() => {
-    const beers = await Promise.all([
-      Beer.insert({ 
+
+  it('finds all the beer items', async() => {
+    await Promise.all([
+      Beer.insert({
         brewery: '2 Towns Bright Cider',
         style: 'Cider',
         abv: '6 %',
-        price: '$6' }),
-      Beer.insert({ 
-        brewery: '2 Towns Bright IPA',
-        style: 'IPA',
-        abv: '6.7 %',
-        price: '$8'
+        price: '$6'
       }),
-      Beer.insert({ 
-        brewery: '2 Moons',
+      Beer.insert({
+        brewery: '2 Towns Cosmic Crisp',
         style: 'Cider',
-        abv: '5 %',
-        price: '$6.50' })
+        abv: '8 %',
+        price: '$7'
+      }),
+      Beer.insert({
+        brewery: 'Breakside - Wanderlust IPA',
+        style: 'IPA',
+        abv: '6.6 %',
+        price: '$6'
+      })
     ]);
-  
-    return request(app)
-      .get('/api/v1/beers')
-      .then(response => {
-        expect(response.body).toEqual(expect.arrayContaining(beers));
-      });
-  });
 
-  // UPDATES
-  it('UPDATES a beer', async() => {
-    const response = await getAgent()
-      .put('/api/v1/beers/1')
-      .send({
-        adminId: 1,
+    const beers = await Beer.find();
+
+    expect(beers).toEqual(expect.arrayContaining([
+      { 
+        id: expect.any(String), 
         brewery: '2 Towns Bright Cider',
         style: 'Cider',
-        abv: '6.2 %',
-        price: '$8'
-      });
+        abv: '6 %',
+        price: '$6'
+      },
+      { 
+        id: expect.any(String), 
+        brewery: '2 Towns Cosmic Crisp',
+        style: 'Cider',
+        abv: '8 %',
+        price: '$7'
+      },
+      { 
+        id: expect.any(String),
+        brewery: 'Breakside - Wanderlust IPA',
+        style: 'IPA',
+        abv: '6.6 %',
+        price: '$6'
+      }
+    ]));
+  });
 
-    expect(response.body).toEqual({
-      id: '1',
-      adminId: expect.any(String),
-      brewery: '2 Towns Bright Cider',
-      style: 'Cider',
-      abv: '6.2 %',
+  it('updates a beer by id', async() => {
+    const createdBeer = await Beer.insert({
+      brewery: 'Breakside - Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
+      price: '$6'
+    });
+
+    const updatedBeer = await Beer.updateBeerById(createdBeer.id, {
+      brewery: 'Breakside Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
+      price: '$8'
+    });
+
+    expect(updatedBeer).toEqual({
+      id: createdBeer.id,
+      brewery: 'Breakside Wanderlust IPA',
+      style: 'IPA',
+      abv: '6.6 %',
       price: '$8'
     });
   });
 
-  // DELETES
-  it('DELETES a beer by id', async() => {
-    const response = await getAgent()
-      .delete('/api/v1/beers/1');
-    
-    expect(response.body).toEqual({
-      id: expect.any(String),
-      adminId: expect.any(String),
-      brewery: '2 Towns Bright IPA',
-      style: 'IPA',
-      abv: '6.2 %',
-      price: '$8'
+  it('deletes a beer by id', async() => {
+    const createdBeer = await Beer.insert({
+      brewery: '2 Towns Cosmic Crisp',
+      style: 'Cider',
+      abv: '8 %',
+      price: '$7'
+    });
+
+    const deletedBeer = await Beer.deleteBeerById(createdBeer.id);
+
+    expect(deletedBeer).toEqual({
+      id: createdBeer.id,
+      brewery: '2 Towns Cosmic Crisp',
+      style: 'Cider',
+      abv: '8 %',
+      price: '$7'
     });
   });
 

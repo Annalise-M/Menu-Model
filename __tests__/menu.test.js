@@ -1,94 +1,135 @@
-const request = require('supertest');
-const { getAgent } = require('../data/data-helpers');
+const fs = require('fs');
+const pool = require('../lib/utils/pool');
 const Menu = require('../lib/models/menu');
-const app = require('../lib/app');
 
-describe('Menu routes', () => {
-  // CREATES
-  it('CREATES a menu via POST', async() => {
-    const response = await getAgent()
-      .post('/api/v1/menus')
-      .send({
-        item: 'food',
-        detail: 'delicious',
-        price: '$8.50'
-      });
 
-    expect(response.body).toEqual({
-      adminId: expect.any(String),
-      id: expect.any(String),
-      item: 'food',
-      detail: 'delicious',
-      price: '$8.50'
+describe('Menu model routes', () => {
+  beforeEach(() => {
+    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  });
+
+
+  it('insert a new food item onto the menu database', async() => {
+    const createdMenu = await Menu.insert({
+      admin_id: expect.any(Number),
+      item: 'Tiramisu',
+      detail: 'An italian coffee custard dessert',
+      price: '$5.95'
+    });
+
+    const { rows } = await pool.query(
+      'SELECT * FROM menus WHERE id = $1',
+      [createdMenu.id]
+    );
+
+    expect(rows[0]).toEqual(createdMenu);
+  });
+
+
+  it('finds a menu item by id', async() => {
+    const tiramisu = await Menu.insert({
+      item: 'Tiramisu',
+      detail: 'An italian coffee custard dessert',
+      price: '$5.95'
+    });
+
+    const foundTiramisu = await Menu.findById(tiramisu.id);
+
+    expect(foundTiramisu).toEqual({
+      id: tiramisu.id,
+      item: 'Tiramisu',
+      detail: 'An italian coffee custard dessert',
+      price: '$5.95'
     });
   });
 
-  // FINDS by id
-  it('FINDS a menu by id', async() => {
-    const menu = await Menu.findById(1);
-    const response = await getAgent()
-      .get('/api/v1/menus/1');
 
-    expect(response.body).toEqual({
-      ...menu
-    });
+  it('returns null if it cant find a menu item by id', async() => {
+    const tiramisu = await Menu.findById(22);
+
+    expect(tiramisu).toEqual(null);
   });
 
-  // NULL if it can't find an id
-  it('Returns NULL if it can\'t find a menu item by id', async() => {
-    const Burgers = await Menu.findById(60);
 
-    expect(Burgers).toEqual(null);
-  });
-
-  // FINDS ALL items
-  it('FINDS ALL menu items by admin id via GET', async() => {
-    const menus = await Promise.all([
-      Menu.insert({ item: 'Street tacos', detail: 'Pollo, Chorizo, Mushroom', price: '$3.50' }),
-      Menu.insert({ item: 'Papas Bravas', detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat', price: '$13' }),
-      Menu.insert({ item: 'Green Salad', detail: 'Farm Greens, creamy jalapeno cilantro dressing', price: '$8' })
+  it('finds all the menu items', async() => {
+    await Promise.all([
+      Menu.insert({
+        item: 'Cheese Burger',
+        detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        price: '$12.95'
+      }),
+      Menu.insert({
+        item: 'Fried Pickles',
+        detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        price: '$4.95'
+      }),
+      Menu.insert({
+        item: 'Pretzel',
+        detail: 'A classic Bavarian snack - made in house',
+        price: '$5.95'
+      })
     ]);
 
-    return request(app)
-      .get('/api/v1/menus')
-      .then(response => {
-        expect(response.body).toEqual(expect.arrayContaining(menus));
-      });
-  });
-  
-  // UPDATES A MENU item by id
-  it('UPDATES a menu', async() => {
-    const response = await getAgent()
-      .put('/api/v1/menus/1')
-      .send({
-        adminId: 1,
-        item: 'Papas Bravas',
-        detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat',
-        price: '$13'
-      });
+    const menus = await Menu.find();
 
-    expect(response.body).toEqual({
-      id: expect.any(String),
-      adminId: '1',
-      item: 'Papas Bravas',
-      detail: 'Fried Potatoes, Cotija, Pickeled Red Onion, Cilantro with choice of meat',
-      price: '$13'
+    expect(menus).toEqual(expect.arrayContaining([
+      { 
+        id: expect.any(String), 
+        item: 'Cheese Burger',
+        detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
+        price: '$12.95'
+      },
+      { 
+        id: expect.any(String), 
+        item: 'Fried Pickles',
+        detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
+        price: '$4.95'
+      },
+      { 
+        id: expect.any(String),
+        item: 'Pretzel',
+        detail: 'A classic Bavarian snack - made in house',
+        price: '$5.95'
+      }
+    ]));
+  });
+
+  it('updates a row by id', async() => {
+    const createdMenu = await Menu.insert({
+      item: 'Tiramisu',
+      detail: 'An italian coffee custard dessert',
+      price: '$5.95',
+    });
+
+    const updatedMenu = await Menu.updateMenuById(createdMenu.id, {
+      item: 'Affagato',
+      detail: 'An italian coffee and gelato dessert',
+      price: '$3.95'
+    });
+
+    expect(updatedMenu).toEqual({
+      id: createdMenu.id,
+      item: 'Affagato',
+      detail: 'An italian coffee and gelato dessert',
+      price: '$3.95'
     });
   });
 
-  // DELETES a beer by id
-  it('DELETES a menu by id', async() => {
-    const response = await getAgent()
-      .delete('/api/v1/menus/1');
-    
-    expect(response.body).toEqual({
-      id: expect.any(String),
-      adminId: expect.any(String),
-      item: 'food',
-      detail: 'delicious',
-      price: '8.50'
+  it('deletes a row by id', async() => {
+    const createdMenu = await Menu.insert({
+      item: 'Eggplant Parmesan',
+      detail: 'Classic italian dish with eggplant and a tomato based sauce',
+      price: '$7.95'
+    });
+
+    const deletedMenu = await Menu.deleteMenuById(createdMenu.id);
+
+    expect(deletedMenu).toEqual({
+      id: createdMenu.id,
+      item: 'Eggplant Parmesan',
+      detail: 'Classic italian dish with eggplant and a tomato based sauce',
+      price: '$7.95'
     });
   });
 
 });
-

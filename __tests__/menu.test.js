@@ -14,7 +14,7 @@ describe('Menu model routes', () => {
       admin_id: expect.any(Number),
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
-      price: '$5.95'
+      price: '5.95'
     });
 
     const { rows } = await pool.query(
@@ -22,7 +22,7 @@ describe('Menu model routes', () => {
       [createdMenu.id]
     );
 
-    expect(rows[0]).toEqual(createdMenu);
+    expect(new Menu(rows[0])).toEqual(createdMenu);
   });
 
 
@@ -30,7 +30,7 @@ describe('Menu model routes', () => {
     const tiramisu = await Menu.insert({
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
-      price: '$5.95'
+      price: '5.95'
     });
 
     const foundTiramisu = await Menu.findById(tiramisu.id);
@@ -39,7 +39,9 @@ describe('Menu model routes', () => {
       id: tiramisu.id,
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
-      price: '$5.95'
+      price: 5.95,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 
@@ -56,40 +58,46 @@ describe('Menu model routes', () => {
       Menu.insert({
         item: 'Cheese Burger',
         detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
-        price: '$12.95'
+        price: '12.95'
       }),
       Menu.insert({
         item: 'Fried Pickles',
         detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
-        price: '$4.95'
+        price: '4.95'
       }),
       Menu.insert({
         item: 'Pretzel',
         detail: 'A classic Bavarian snack - made in house',
-        price: '$5.95'
+        price: '5.95'
       })
     ]);
 
     const menus = await Menu.find();
 
     expect(menus).toEqual(expect.arrayContaining([
-      { 
-        id: expect.any(String), 
+      {
+        id: expect.any(String),
         item: 'Cheese Burger',
         detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
-        price: '$12.95'
+        price: 12.95,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       },
-      { 
-        id: expect.any(String), 
+      {
+        id: expect.any(String),
         item: 'Fried Pickles',
         detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
-        price: '$4.95'
+        price: 4.95,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       },
-      { 
+      {
         id: expect.any(String),
         item: 'Pretzel',
         detail: 'A classic Bavarian snack - made in house',
-        price: '$5.95'
+        price: 5.95,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       }
     ]));
   });
@@ -98,20 +106,22 @@ describe('Menu model routes', () => {
     const createdMenu = await Menu.insert({
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
-      price: '$5.95',
+      price: '5.95',
     });
 
     const updatedMenu = await Menu.updateMenuById(createdMenu.id, {
       item: 'Affagato',
       detail: 'An italian coffee and gelato dessert',
-      price: '$3.95'
+      price: '3.95'
     });
 
     expect(updatedMenu).toEqual({
       id: createdMenu.id,
       item: 'Affagato',
       detail: 'An italian coffee and gelato dessert',
-      price: '$3.95'
+      price: 3.95,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 
@@ -119,7 +129,7 @@ describe('Menu model routes', () => {
     const createdMenu = await Menu.insert({
       item: 'Eggplant Parmesan',
       detail: 'Classic italian dish with eggplant and a tomato based sauce',
-      price: '$7.95'
+      price: '7.95'
     });
 
     const deletedMenu = await Menu.deleteMenuById(createdMenu.id);
@@ -128,7 +138,9 @@ describe('Menu model routes', () => {
       id: createdMenu.id,
       item: 'Eggplant Parmesan',
       detail: 'Classic italian dish with eggplant and a tomato based sauce',
-      price: '$7.95'
+      price: 7.95,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 

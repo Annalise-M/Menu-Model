@@ -14,8 +14,8 @@ describe('Menu model routes', () => {
       admin_id: expect.any(String),
       brewery: '2 Towns Bright Cider',
       style: 'Cider',
-      abv: '6 %',
-      price: '$6'
+      abv: '6',
+      price: '6'
     });
 
     const { rows } = await pool.query(
@@ -23,7 +23,7 @@ describe('Menu model routes', () => {
       [createdBeer.id]
     );
 
-    expect(rows[0]).toEqual(createdBeer);
+    expect(new Beer(rows[0])).toEqual(createdBeer);
   });
 
 
@@ -31,8 +31,8 @@ describe('Menu model routes', () => {
     const TwoTowns = await Beer.insert({
       brewery: '2 Towns Bright Cider',
       style: 'Cider',
-      abv: '6 %',
-      price: '$6'
+      abv: '6',
+      price: '6'
     });
 
     const found2Towns = await Beer.findById(TwoTowns.id);
@@ -41,8 +41,10 @@ describe('Menu model routes', () => {
       id: TwoTowns.id,
       brewery: '2 Towns Bright Cider',
       style: 'Cider',
-      abv: '6 %',
-      price: '$6'
+      abv: 6,
+      price: 6,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 
@@ -59,20 +61,26 @@ describe('Menu model routes', () => {
       Beer.insert({
         brewery: '2 Towns Bright Cider',
         style: 'Cider',
-        abv: '6 %',
-        price: '$6'
+        abv: 6,
+        price: 6,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       }),
       Beer.insert({
         brewery: '2 Towns Cosmic Crisp',
         style: 'Cider',
-        abv: '8 %',
-        price: '$7'
+        abv: 8,
+        price: 7,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       }),
       Beer.insert({
         brewery: 'Breakside - Wanderlust IPA',
         style: 'IPA',
-        abv: '6.6 %',
-        price: '$6'
+        abv: 6.6,
+        price: 6,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       })
     ]);
 
@@ -83,22 +91,28 @@ describe('Menu model routes', () => {
         id: expect.any(String), 
         brewery: '2 Towns Bright Cider',
         style: 'Cider',
-        abv: '6 %',
-        price: '$6'
+        abv: 6,
+        price: 6,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       },
       { 
         id: expect.any(String), 
         brewery: '2 Towns Cosmic Crisp',
         style: 'Cider',
-        abv: '8 %',
-        price: '$7'
+        abv: 8,
+        price: 7,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       },
       { 
         id: expect.any(String),
         brewery: 'Breakside - Wanderlust IPA',
         style: 'IPA',
-        abv: '6.6 %',
-        price: '$6'
+        abv: 6.6,
+        price: 6,
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date)
       }
     ]));
   });
@@ -107,23 +121,25 @@ describe('Menu model routes', () => {
     const createdBeer = await Beer.insert({
       brewery: 'Breakside - Wanderlust IPA',
       style: 'IPA',
-      abv: '6.6 %',
-      price: '$6'
+      abv: '6.6',
+      price: '6'
     });
 
     const updatedBeer = await Beer.updateBeerById(createdBeer.id, {
       brewery: 'Breakside Wanderlust IPA',
       style: 'IPA',
-      abv: '6.6 %',
-      price: '$8'
+      abv: '6.6',
+      price: '8'
     });
 
     expect(updatedBeer).toEqual({
       id: createdBeer.id,
       brewery: 'Breakside Wanderlust IPA',
       style: 'IPA',
-      abv: '6.6 %',
-      price: '$8'
+      abv: 6.6,
+      price: 8,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 
@@ -131,8 +147,8 @@ describe('Menu model routes', () => {
     const createdBeer = await Beer.insert({
       brewery: '2 Towns Cosmic Crisp',
       style: 'Cider',
-      abv: '8 %',
-      price: '$7'
+      abv: '8',
+      price: '7'
     });
 
     const deletedBeer = await Beer.deleteBeerById(createdBeer.id);
@@ -141,8 +157,10 @@ describe('Menu model routes', () => {
       id: createdBeer.id,
       brewery: '2 Towns Cosmic Crisp',
       style: 'Cider',
-      abv: '8 %',
-      price: '$7'
+      abv: 8,
+      price: 7,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
     });
   });
 

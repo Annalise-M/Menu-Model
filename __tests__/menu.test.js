@@ -40,6 +40,7 @@ describe('Menu model routes', () => {
       item: 'Tiramisu',
       detail: 'An italian coffee custard dessert',
       price: 5.95,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -80,6 +81,7 @@ describe('Menu model routes', () => {
         item: 'Cheese Burger',
         detail: 'A meat patty grilled in our delicious signature sauce, with your choice of select cheeses',
         price: 12.95,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
@@ -88,6 +90,7 @@ describe('Menu model routes', () => {
         item: 'Fried Pickles',
         detail: 'A basket of our deep friend beer battered pickles with a side of aioli sauce',
         price: 4.95,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
@@ -96,6 +99,7 @@ describe('Menu model routes', () => {
         item: 'Pretzel',
         detail: 'A classic Bavarian snack - made in house',
         price: 5.95,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       }
@@ -120,6 +124,7 @@ describe('Menu model routes', () => {
       item: 'Affagato',
       detail: 'An italian coffee and gelato dessert',
       price: 3.95,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -139,6 +144,7 @@ describe('Menu model routes', () => {
       item: 'Eggplant Parmesan',
       detail: 'Classic italian dish with eggplant and a tomato based sauce',
       price: 7.95,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });

@@ -43,6 +43,7 @@ describe('Menu model routes', () => {
       style: 'Cider',
       abv: 6,
       price: 6,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -87,30 +88,33 @@ describe('Menu model routes', () => {
     const beers = await Beer.find();
 
     expect(beers).toEqual(expect.arrayContaining([
-      { 
-        id: expect.any(String), 
+      {
+        id: expect.any(String),
         brewery: '2 Towns Bright Cider',
         style: 'Cider',
         abv: 6,
         price: 6,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
-      { 
-        id: expect.any(String), 
+      {
+        id: expect.any(String),
         brewery: '2 Towns Cosmic Crisp',
         style: 'Cider',
         abv: 8,
         price: 7,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
-      { 
+      {
         id: expect.any(String),
         brewery: 'Breakside - Wanderlust IPA',
         style: 'IPA',
         abv: 6.6,
         price: 6,
+        available: true,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       }
@@ -138,6 +142,7 @@ describe('Menu model routes', () => {
       style: 'IPA',
       abv: 6.6,
       price: 8,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -159,6 +164,7 @@ describe('Menu model routes', () => {
       style: 'Cider',
       abv: 8,
       price: 7,
+      available: true,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });

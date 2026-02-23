@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS restaurant_settings (
   id SERIAL PRIMARY KEY,
-  restaurant_name VARCHAR(255) NOT NULL DEFAULT 'The Traveling Taphouse',
+  restaurant_name VARCHAR(255) NOT NULL DEFAULT 'Your Restaurant Here',
   tagline VARCHAR(255) DEFAULT 'Craft Beers & Culinary Excellence',
   logo_url TEXT,
   background_image_url TEXT,
@@ -22,7 +22,7 @@ INSERT INTO restaurant_settings (
   accent_color,
   background_color
 ) VALUES (
-  'The Traveling Taphouse',
+  'Your Restaurant Here',
   'Craft Beers & Culinary Excellence',
   '#D4AF37',
   '#B87333',

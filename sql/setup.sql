@@ -17,6 +17,7 @@ CREATE TABLE menus (
   item TEXT NOT NULL,
   detail TEXT,
   price DECIMAL(10,2) NOT NULL,
+  available BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -27,6 +28,7 @@ CREATE TABLE beers (
   style TEXT NOT NULL,
   abv DECIMAL(4,2) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
+  available BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

@@ -8,7 +8,11 @@
       "Bash(npm update:*)",
       "Bash(npm uninstall:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm run setup-db:*)",
+      "Bash(/Users/annalise/Personal/Menu-Model/run-migration.js:*)",
+      "Bash(node -r dotenv/config:*)",
+      "Bash(npx jest:*)"
     ]
   }
 }

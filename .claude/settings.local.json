@@ -12,7 +12,8 @@
       "Bash(npm run setup-db:*)",
       "Bash(/Users/annalise/Personal/Menu-Model/run-migration.js:*)",
       "Bash(node -r dotenv/config:*)",
-      "Bash(npx jest:*)"
+      "Bash(npx jest:*)",
+      "Bash(node:*)"
     ]
   }
 }

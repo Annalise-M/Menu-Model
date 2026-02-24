@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS restaurant_settings (
   primary_color VARCHAR(7) DEFAULT '#D4AF37', -- Gold
   accent_color VARCHAR(7) DEFAULT '#B87333',   -- Copper
   background_color VARCHAR(7) DEFAULT '#1C1C1E', -- Charcoal
+  uncategorized_label VARCHAR(50) DEFAULT 'Uncategorized',
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -20,13 +21,15 @@ INSERT INTO restaurant_settings (
   tagline,
   primary_color,
   accent_color,
-  background_color
+  background_color,
+  uncategorized_label
 ) VALUES (
   'Your Restaurant Here',
   'Craft Beers & Culinary Excellence',
   '#D4AF37',
   '#B87333',
-  '#1C1C1E'
+  '#1C1C1E',
+  'Uncategorized'
 ) ON CONFLICT DO NOTHING;
 
 -- Only allow one row (single restaurant configuration)

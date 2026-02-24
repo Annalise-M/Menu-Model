@@ -44,6 +44,7 @@ describe('Menu model routes', () => {
       abv: 6,
       price: 6,
       available: true,
+      categoryId: null,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -95,6 +96,7 @@ describe('Menu model routes', () => {
         abv: 6,
         price: 6,
         available: true,
+        categoryId: null,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
@@ -105,6 +107,7 @@ describe('Menu model routes', () => {
         abv: 8,
         price: 7,
         available: true,
+        categoryId: null,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       },
@@ -115,6 +118,7 @@ describe('Menu model routes', () => {
         abv: 6.6,
         price: 6,
         available: true,
+        categoryId: null,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
       }
@@ -143,6 +147,7 @@ describe('Menu model routes', () => {
       abv: 6.6,
       price: 8,
       available: true,
+      categoryId: null,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
@@ -165,6 +170,7 @@ describe('Menu model routes', () => {
       abv: 8,
       price: 7,
       available: true,
+      categoryId: null,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date)
     });
